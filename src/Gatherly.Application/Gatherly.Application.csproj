@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <Folder Include="Invitations\Commands\AcceptInvitation\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Gatherly.Domain\Gatherly.Domain.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <PackageReference Include="mediatr" Version="10.0.1" />
+    </ItemGroup>
+
+</Project>

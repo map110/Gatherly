@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A359D86C-6E31-45D0-A44D-94FCF2BE43E8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gatherly.Domain", "src\Gatherly.Domain\Gatherly.Domain.csproj", "{F07BB921-309C-48CB-B175-90D734C5CB8C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Gatherly.Application", "src\Gatherly.Application\Gatherly.Application.csproj", "{4F8C42F4-73B5-4BDE-A8BD-01D30AFF2EDC}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F07BB921-309C-48CB-B175-90D734C5CB8C} = {A359D86C-6E31-45D0-A44D-94FCF2BE43E8}
+		{4F8C42F4-73B5-4BDE-A8BD-01D30AFF2EDC} = {A359D86C-6E31-45D0-A44D-94FCF2BE43E8}
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F07BB921-309C-48CB-B175-90D734C5CB8C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F07BB921-309C-48CB-B175-90D734C5CB8C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F07BB921-309C-48CB-B175-90D734C5CB8C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F07BB921-309C-48CB-B175-90D734C5CB8C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F8C42F4-73B5-4BDE-A8BD-01D30AFF2EDC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F8C42F4-73B5-4BDE-A8BD-01D30AFF2EDC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F8C42F4-73B5-4BDE-A8BD-01D30AFF2EDC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F8C42F4-73B5-4BDE-A8BD-01D30AFF2EDC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
