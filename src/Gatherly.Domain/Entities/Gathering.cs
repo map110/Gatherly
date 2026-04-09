@@ -1,4 +1,5 @@
 ﻿using Gatherly.Domain.Enums;
+using Gatherly.Domain.Exceptions;
 using Gatherly.Domain.Primitives;
 
 namespace Gatherly.Domain.Entities;
@@ -62,33 +63,39 @@ public sealed class Gathering : Entity
             name,
             location);
 
-        // Calculate gathering type details
-        switch (gathering.Type)
+        gathering.CalculateGatheringTypeDetails(maximumNumberOfAttendees, invitationsValidBeforeInHours);
+
+        return gathering;
+    }
+
+    private void CalculateGatheringTypeDetails(
+        int? maximumNumberOfAttendees,
+        int? invitationsValidBeforeInHours)
+    {
+        switch (Type)
         {
             case GatheringType.WithFixedNumberOfAttendees:
                 if (maximumNumberOfAttendees is null)
                 {
-                    throw new Exception(
+                    throw new GatheringMaximumNumberOfAttendeesIsNullDomainException(
                         $"{nameof(maximumNumberOfAttendees)} can't be null.");
                 }
 
-                gathering.MaximumNumberOfAttendees = maximumNumberOfAttendees;
+                MaximumNumberOfAttendees = maximumNumberOfAttendees;
                 break;
             case GatheringType.WithExpirationForInvitations:
                 if (invitationsValidBeforeInHours is null)
                 {
-                    throw new Exception(
+                    throw new GatheringInvitationsValidBeforeInHoursIsNullDomainException(
                         $"{nameof(invitationsValidBeforeInHours)} can't be null.");
                 }
 
-                gathering.InvitationsExpireAtUtc =
-                    gathering.ScheduledAtUtc.AddHours(-invitationsValidBeforeInHours.Value);
+                InvitationsExpireAtUtc =
+                    ScheduledAtUtc.AddHours(-invitationsValidBeforeInHours.Value);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(GatheringType));
         }
-
-        return gathering;
     }
 
     public Invitation SendInvitation(Member member)
