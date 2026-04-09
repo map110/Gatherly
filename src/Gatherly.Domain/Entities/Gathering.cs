@@ -1,6 +1,8 @@
 ﻿using Gatherly.Domain.Enums;
+using Gatherly.Domain.Errors;
 using Gatherly.Domain.Exceptions;
 using Gatherly.Domain.Primitives;
+using Gatherly.Domain.Shared;
 
 namespace Gatherly.Domain.Entities;
 
@@ -98,17 +100,16 @@ public sealed class Gathering : Entity
         }
     }
 
-    public Invitation SendInvitation(Member member)
+    public Result<Invitation> SendInvitation(Member member)
     {
-        // Validate
         if (Creator.Id == member.Id)
         {
-            throw new Exception("Can't send invitation to the gathering creator.");
+            return Result.Failure<Invitation>(DomainErrors.Gathering.InvitingCreator);
         }
 
         if (ScheduledAtUtc < DateTime.UtcNow)
         {
-            throw new Exception("Can't send invitation for gathering in the past.");
+            return Result.Failure<Invitation>(DomainErrors.Gathering.AlreadyPassed);
         }
 
         var invitation = new Invitation(Guid.NewGuid(), member, this);
@@ -118,18 +119,24 @@ public sealed class Gathering : Entity
         return invitation;
     }
 
-    public Attendee? AcceptInvitation(Invitation invitation)
+    public Result<Attendee> AcceptInvitation(Invitation invitation)
     {
-        // Check if expired
-        var expired = (Type == GatheringType.WithFixedNumberOfAttendees &&
-                       NumberOfAttendees == MaximumNumberOfAttendees) ||
-                      (Type == GatheringType.WithExpirationForInvitations &&
-                       InvitationsExpireAtUtc < DateTime.UtcNow);
+        var reachedMaximumNumberOfAttendees =
+            Type == GatheringType.WithFixedNumberOfAttendees &&
+            NumberOfAttendees == MaximumNumberOfAttendees;
+
+        var reachedInvitationsExpiration =
+            Type == GatheringType.WithExpirationForInvitations &&
+            InvitationsExpireAtUtc < DateTime.UtcNow;
+
+        var expired = reachedMaximumNumberOfAttendees ||
+                      reachedInvitationsExpiration;
+
         if (expired)
         {
             invitation.Expire();
 
-            return null;
+            return Result.Failure<Attendee>(DomainErrors.Gathering.Expired);
         }
 
         var attendee = invitation.Accept();
