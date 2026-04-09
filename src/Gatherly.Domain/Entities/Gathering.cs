@@ -2,6 +2,8 @@
 
 public class Gathering
 {
+    private readonly List<Invitation> _invitations = new();
+
     private Gathering(
         Guid id,
         Member creator,
@@ -35,6 +37,8 @@ public class Gathering
     public DateTime? InvitationsExpireAtUtc { get; private set; }
 
     public int NumberOfAttendees { get; private set; }
+
+    public IReadOnlyCollection<Invitation> Invitations => _invitations;
 
     public static Gathering Create(
         Guid id,
@@ -82,5 +86,25 @@ public class Gathering
         }
 
         return gathering;
+    }
+
+    public Invitation SendInvitation(Member member)
+    {
+        // Validate
+        if (Creator.Id == member.Id)
+        {
+            throw new Exception("Can't send invitation to the gathering creator.");
+        }
+
+        if (ScheduledAtUtc < DateTime.UtcNow)
+        {
+            throw new Exception("Can't send invitation for gathering in the past.");
+        }
+
+        var invitation = new Invitation(Guid.NewGuid(), member, this);
+
+        _invitations.Add(invitation);
+
+        return invitation;
     }
 }
