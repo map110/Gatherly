@@ -1,6 +1,9 @@
-﻿namespace Gatherly.Domain.Entities;
+﻿using Gatherly.Domain.Enums;
+using Gatherly.Domain.Primitives;
 
-public class Gathering
+namespace Gatherly.Domain.Entities;
+
+public sealed class Gathering : Entity
 {
     private readonly List<Invitation> _invitations = new();
     private readonly List<Attendee> _attendees = new();
@@ -11,17 +14,14 @@ public class Gathering
         GatheringType type,
         DateTime scheduledAtUtc,
         string name,
-        string? location)
+        string? location) : base(id)
     {
-        Id = id;
         Creator = creator;
         Type = type;
         ScheduledAtUtc = scheduledAtUtc;
         Name = name;
         Location = location;
     }
-
-    public Guid Id { get; private set; }
 
     public Member Creator { get; private set; }
 
