@@ -3,6 +3,7 @@
 public class Gathering
 {
     private readonly List<Invitation> _invitations = new();
+    private readonly List<Attendee> _attendees = new();
 
     private Gathering(
         Guid id,
@@ -39,6 +40,8 @@ public class Gathering
     public int NumberOfAttendees { get; private set; }
 
     public IReadOnlyCollection<Invitation> Invitations => _invitations;
+    public IReadOnlyCollection<Attendee> Attendees => _attendees;
+
 
     public static Gathering Create(
         Guid id,
@@ -106,5 +109,27 @@ public class Gathering
         _invitations.Add(invitation);
 
         return invitation;
+    }
+
+    public Attendee? AcceptInvitation(Invitation invitation)
+    {
+        // Check if expired
+        var expired = (Type == GatheringType.WithFixedNumberOfAttendees &&
+                       NumberOfAttendees == MaximumNumberOfAttendees) ||
+                      (Type == GatheringType.WithExpirationForInvitations &&
+                       InvitationsExpireAtUtc < DateTime.UtcNow);
+        if (expired)
+        {
+            invitation.Expire();
+
+            return null;
+        }
+
+        var attendee = invitation.Accept();
+
+        _attendees.Add(attendee);
+        NumberOfAttendees++;
+
+        return attendee;
     }
 }

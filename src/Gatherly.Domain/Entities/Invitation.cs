@@ -9,7 +9,7 @@ public class Invitation
         GatheringId = gathering.Id;
         Status = InvitationStatus.Pending;
         CreatedOnUtc = DateTime.UtcNow;
-    } 
+    }
 
     public Guid Id { get; private set; }
 
@@ -22,4 +22,20 @@ public class Invitation
     public DateTime CreatedOnUtc { get; private set; }
 
     public DateTime? ModifiedOnUtc { get; private set; }
+
+    internal void Expire()
+    {
+        Status = InvitationStatus.Expired;
+        ModifiedOnUtc = DateTime.UtcNow;
+    }
+
+    internal Attendee Accept()
+    {
+        Status = InvitationStatus.Accepted;
+        ModifiedOnUtc = DateTime.UtcNow;
+
+        var attendee = new Attendee(this);
+
+        return attendee;
+    }
 }
