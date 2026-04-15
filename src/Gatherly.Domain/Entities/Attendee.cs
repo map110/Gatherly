@@ -9,6 +9,10 @@ public class Attendee
         CreatedOnUtc = DateTime.UtcNow;
     }
 
+    private Attendee()
+    {
+    }
+
     public Guid GatheringId { get; set; }
 
     public Guid MemberId { get; set; }

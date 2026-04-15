@@ -1,0 +1,12 @@
+
+کامند ایجاد مایگریت
+PS D:\Gatherly> dotnet ef migrations add Init --project src/gatherly.persistence --startup-project src/gatherly.app
+
+کامند حذف آخرین مایگریت
+PS D:\Gatherly> dotnet ef migrations Remove --project src/gatherly.persistence --startup-project src/gatherly.app
+
+کامند بروزرسانی دیتابیس
+PS D:\Gatherly> dotnet ef database update --project src/gatherly.persistence --startup-project src/gatherly.app
+
+
+خیلی مهمه که این دستور رو از کنار فایل .sln اجرا کنی

@@ -26,7 +26,9 @@ public sealed class Gathering : AggregateRoot
         Name = name;
         Location = location;
     }
-
+    private Gathering()
+    {
+    }
     public Member Creator { get; private set; }
 
     public GatheringType Type { get; private set; }

@@ -1,10 +1,14 @@
 ﻿namespace Gatherly.Domain.Primitives;
 
-public class Entity :IEquatable<Entity>
+public class Entity : IEquatable<Entity>
 {
     protected Entity(Guid id)
     {
         Id = id;
+    }
+
+    protected Entity()
+    {
     }
 
     public Guid Id { get; private init; }
