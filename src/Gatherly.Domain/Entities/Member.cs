@@ -28,8 +28,14 @@ public class Member : AggregateRoot
         Guid id,
         FirstName firstName,
         LastName lastName,
-        Email email)
+        Email email,
+        bool isEmailUnique)
     {
+        if (isEmailUnique)
+        {
+            return null;
+        }
+
         var member = new Member(
             id,
             firstName,

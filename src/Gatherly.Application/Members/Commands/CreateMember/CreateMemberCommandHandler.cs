@@ -30,11 +30,13 @@ public class CreateMemberCommandHandler : ICommandHandler<CreateMemberCommand, G
             return Result.Failure<Guid>(DomainErrors.Member.EmailAlreadyInUse);
         }
 
+        var isEamilUnique = await _memberRepository.IsEmailUniqueAsync(emailResult.Value);
         var member = Member.Create(
             Guid.NewGuid(),
             firstNameResult.Value,
             lastNameResult.Value,
-            emailResult.Value
+            emailResult.Value,
+            isEamilUnique
         );
 
         _memberRepository.Add(member);
